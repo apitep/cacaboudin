@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Caca Boudin',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.yellow,
@@ -34,12 +34,12 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   /// Owen's Faces
   List<String> _headshots = [
-    'assets/images/owen1.png',
-    'assets/images/owen2.png',
-    'assets/images/owen3.png',
-    'assets/images/owen4.png',
-    'assets/images/owen5.png',
-    'assets/images/owen6.png',
+    'assets/images/brownpoop.png',
+    'assets/images/fesses.png',
+    'assets/images/nez.png',
+    'assets/images/fart.png',
+    'assets/images/cat.png',
+    'assets/images/fesses.png',
   ];
 
   /// Owen's WOWs
@@ -68,67 +68,61 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
         centerTitle: true,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Text('Click a face, hear a WOW!'),
-          GridView.builder(
-            shrinkWrap: true,
-            itemCount: 15,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisSpacing: 5,
-              mainAxisSpacing: 5,
-              crossAxisCount: 3,
-            ),
-            itemBuilder: (BuildContext context, int index) => GestureDetector(
-              child: Center(
-                child: AnimatedContainer(
-                  width: indexIsPlaying == index ? 120 : 80,
-                  height: indexIsPlaying == index ? 120 : 80,
-                  duration: Duration(milliseconds: 400),
-                  curve: Curves.bounceOut,
-                  decoration: BoxDecoration(
-                    color: indexIsPlaying == index
-                        ? Colors.white
-                        : Colors.yellow[500],
-                    borderRadius: new BorderRadius.circular(100.0),
-                    image: new DecorationImage(
-                      image: new AssetImage(_headshots[index % 5]),
-                      fit: BoxFit.fill,
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            GridView.builder(
+              shrinkWrap: true,
+              itemCount: 15,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisSpacing: 5,
+                mainAxisSpacing: 5,
+                crossAxisCount: 3,
+              ),
+              itemBuilder: (BuildContext context, int index) => GestureDetector(
+                child: Center(
+                  child: AnimatedContainer(
+                    width: indexIsPlaying == index ? 120 : 80,
+                    height: indexIsPlaying == index ? 120 : 80,
+                    duration: Duration(milliseconds: 400),
+                    curve: Curves.bounceOut,
+                    decoration: BoxDecoration(
+                      color: indexIsPlaying == index ? Colors.white : Colors.yellow[500],
+                      borderRadius: new BorderRadius.circular(100.0),
+                      image: new DecorationImage(
+                        image: new AssetImage(_headshots[index % 5]),
+                        fit: BoxFit.fill,
+                      ),
+                      border: new Border.all(color: indexIsPlaying == index ? Colors.yellow : Colors.transparent, width: 2.0, style: BorderStyle.solid),
+                      boxShadow: [
+                        new BoxShadow(
+                          color: Colors.grey.withOpacity(0.4),
+                          offset: Offset(0, 10.0),
+                          blurRadius: 10.0,
+                        )
+                      ],
                     ),
-                    border: new Border.all(
-                        color: indexIsPlaying == index
-                            ? Colors.yellow
-                            : Colors.transparent,
-                        width: 2.0,
-                        style: BorderStyle.solid),
-                    boxShadow: [
-                      new BoxShadow(
-                        color: Colors.grey.withOpacity(0.4),
-                        offset: Offset(0, 10.0),
-                        blurRadius: 10.0,
-                      )
-                    ],
-                  ),
-                  child: Align(
-                    alignment: Alignment.bottomRight,
-                    child: Text('${index + 1}'),
+                    // child: Align(
+                    //   alignment: Alignment.bottomRight,
+                    //   child: Text('${index + 1}'),
+                    // ),
                   ),
                 ),
+                onTap: () {
+                  if (mounted) {
+                    setState(() {
+                      playSound(_wows[index]);
+                      indexIsPlaying = index;
+                    });
+                  }
+                },
               ),
-              onTap: () {
-                if (mounted) {
-                  setState(() {
-                    playSound(_wows[index]);
-                    indexIsPlaying = index;
-                  });
-                }
-              },
+              padding: const EdgeInsets.all(20),
             ),
-            padding: const EdgeInsets.all(20),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
